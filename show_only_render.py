@@ -5,7 +5,7 @@ bl_info = {
     'name': "Show Only Render",
     'description': "Toggle to show only rendered objects in the 3D Viewport.",
     'author': "Artell & Gatada",
-    "version": (1, 11, 1),
+    "version": (1, 12, 3),
     'blender': (2, 80, 0),
     'location': "3D Viewport > Sidebar (N) > View",
     'wiki_url': "",
@@ -13,10 +13,20 @@ bl_info = {
     }
 
 
+class OBJECT_OT_toggle_disable_in_viewport(bpy.types.Operator):
+    bl_idname = "object.toggle_disable_in_viewport"
+    bl_label = "Refresh Visibility"
+    
+    def execute(self, context):
+        if context.scene.sor_show_only_render:
+            for obj in bpy.context.scene.objects:
+                obj.hide_set(obj.hide_render)
+        return {'FINISHED'}
+        
+
 class SOR_PT_menu(bpy.types.Panel):
-    bl_category = ""
-    bl_label = ""
-    bl_options = set({'HIDE_HEADER'})
+    bl_label = "Hide Disabled"
+    # bl_options = set({'HIDE_HEADER'})
     bl_region_type = 'UI'
     bl_space_type = 'VIEW_3D'
     bl_category = "View"    
@@ -29,21 +39,32 @@ class SOR_PT_menu(bpy.types.Panel):
         layout = self.layout        
         layout.prop(context.scene, "sor_show_only_render", text="Show Only Render")
         
-        row = layout.row()
-        row.enabled = context.scene.sor_show_only_render
+        # Add a box around the options
+        box = layout.box()
+        box.enabled = context.scene.sor_show_only_render
+        
+        row = box.row()
+        #row.enabled = context.scene.sor_show_only_render
+        row.operator("object.toggle_disable_in_viewport")
+        
+        row = box.row()
+        #row.enabled = context.scene.sor_show_only_render
         row.prop(bpy.context.scene, "sor_refresh_with_frame", text="Refresh on Frame Change")
 
 
-def update_show_only_render(self, context):    
-    for obj in context.scene.objects:  
-        if context.scene.sor_show_only_render:
-            obj.hide_set(obj.hide_render)    
-        else:
-            obj.hide_set(False)    
+def update_show_only_render(self, context):
+    if context.scene.sor_show_only_render:
+        for obj in context.scene.objects:
+            obj.hide_set(obj.hide_render)
+    else:
+        for obj in context.scene.objects:
+            obj.hide_set(False)
+
 
 
 classes = (
     SOR_PT_menu,
+    OBJECT_OT_toggle_disable_in_viewport,
     )
 
 
