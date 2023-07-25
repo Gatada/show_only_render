@@ -9,7 +9,7 @@ Show only objects that are enabled in renders.
 
 ## Usage
 
-Enable the option to Show Only Render to hide non-renderable objects. The visibility of objects do not update automatically (instead you have to cycle the Show Only Render checkbox to force a manual refresh).
+Enable the option to Show Only Render to hide non-renderable objects. The visibility of objects do not update automatically, so to manually update the visibility click the refresh button.
 
 However, if you have the Refresh on Frame Change option enabled, the visibility of the objects in the scene will update every time you change the current frame.
 
