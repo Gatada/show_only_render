@@ -3,7 +3,7 @@ from bpy.app.handlers import persistent
 
 bl_info = {
     'name': "Show Only Render",
-    'description': "Toggle to show only rendered objects in the viewport. Please note that this add-on alters the Hide in Viewport state of the affected objects.",
+    'description': "Toggle to show only rendered objects in the 3D Viewport.",
     'author': "Artell & Gatada",
     "version": (1, 11, 1),
     'blender': (2, 80, 0),
